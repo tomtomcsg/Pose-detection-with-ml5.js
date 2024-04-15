@@ -1,10 +1,19 @@
-// open up your console - if everything loaded properly you should see the latest ml5 version
-console.log("ml5 version:", ml5.version);
+let video;
+let poseNet;
+let poses = [];
 
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(640, 480);
+    video = createCapture(VIDEO);
+
+    poseNet = ml5.poseNet(video, videoLoaded);
+
+    poseNet.on("pose", (results) => {
+        poses = results;
+        //console.log(poses);
+    });
 }
 
-function draw() {
-    background(200);
+function videoLoaded() {
+    console.log("VIDEO WORKING");
 }
