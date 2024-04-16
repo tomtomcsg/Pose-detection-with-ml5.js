@@ -17,9 +17,12 @@ function setup() {
 
 function videoLoaded() {
     console.log("VIDEO WORKING");
+    document.getElementById("loading").innerHTML = "Working!";
 }
 
 function draw() {
+    translate(video.width, 0);
+    scale(-1, 1);
     image(video, 0, 0);
 
     drawDots();
@@ -44,6 +47,7 @@ function drawDots() {
 }
 
 function drawSkeleton() {
+    // loops through the skeleton frame
     for (let i = 0; i < poses.length; i++) {
         const skeleton = poses[i].skeleton;
 
