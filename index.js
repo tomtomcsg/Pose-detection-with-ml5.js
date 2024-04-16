@@ -1,6 +1,19 @@
 let video;
 let poseNet;
 let poses = [];
+let neuralNetwork;
+
+let state = "waiting";
+let targetLabel;
+
+function dataTrigger() {
+    targetLabel = key;
+    console.log(targetLabel);
+    setTimeout(function () {
+        console.log("collecting");
+        state = "collecting";
+    }, 1000);
+}
 
 function setup() {
     createCanvas(640, 480);
@@ -13,6 +26,15 @@ function setup() {
         //console.log(poses);
     });
     video.hide();
+
+    let options = {
+        inputs: 34,
+        outputs: 4,
+        tasks: "classification",
+        debug: true,
+    };
+
+    neuralNetwork = ml5.neuralNetwork(options);
 }
 
 function videoLoaded() {
