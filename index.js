@@ -44,19 +44,23 @@ function setup() {
 }
 
 function gotPoses(poses) {
-    let pose = poses[0].pose;
+    if (poses.length > 0) {
+        let pose = poses[0].pose;
+        let skeleton = poses[0].skeleton;
+        if (state == "collecting") {
+            for (let j = 0; j < pose.keypoints.length; j++) {
+                let x = pose.keypoints[j].position.x;
+                let y = pose.keypoints[j].position.y;
 
-    for (let j = 0; j < pose.keypoints.length; j++) {
-        let x = pose.keypoints[j].position.x;
-        let y = pose.keypoints[j].position.y;
-
-        if (keypoint.score > 0.2) {
-            inputs.push(x);
-            inputs.push(y);
+                if (keypoint.score > 0.2) {
+                    inputs.push(x);
+                    inputs.push(y);
+                }
+            }
+            let target = [targetLabel];
+            neuralNetwork.addData(inputs, target);
         }
     }
-    let target = [targetLabel];
-    neuralNetwork.addData(inputs, target);
 }
 
 function videoLoaded() {
