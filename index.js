@@ -2,11 +2,11 @@ let video;
 let poseNet;
 let poses = [];
 let neuralNetwork;
-
 let state = "waiting";
 let targetLabel;
+let inputs = [];
 
-function dataTrigger() {
+function dataTrigger(key) {
     targetLabel = key;
     console.log(targetLabel);
     setTimeout(function () {
@@ -25,6 +25,7 @@ function setup() {
         poses = results;
         //console.log(poses);
     });
+
     video.hide();
 
     let options = {
@@ -35,6 +36,22 @@ function setup() {
     };
 
     neuralNetwork = ml5.neuralNetwork(options);
+}
+
+function gotPoses(poses) {
+    let pose = poses[0].pose;
+
+    for (let j = 0; j < pose.keypoints.length; j++) {
+        let x = pose.keypoints[j].position.x;
+        let y = pose.keypoints[j].position.y;
+
+        if (keypoint.score > 0.2) {
+            inputs.push(x);
+            inputs.push(y);
+        }
+    }
+    let target = [targetLabel];
+    neuralNetwork.addData(inputs, target);
 }
 
 function videoLoaded() {
@@ -56,7 +73,7 @@ function drawDots() {
     for (let i = 0; i < poses.length; i += 1) {
         const pose = poses[i].pose;
 
-        for (let j = 0; j < pose.keypoints.length; j += 1) {
+        for (let j = 0; j < pose.keypoints.length; j++) {
             const keypoint = pose.keypoints[j];
 
             if (keypoint.score > 0.2) {
