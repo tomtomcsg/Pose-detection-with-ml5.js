@@ -6,6 +6,7 @@ let state = "waiting";
 let targetLabel;
 let inputs = [];
 
+//triggers data collection
 function dataTrigger(key) {
     targetLabel = key;
     console.log(targetLabel);
@@ -20,6 +21,7 @@ function dataTrigger(key) {
     }, 10000);
 }
 
+//sets up web cam
 function setup() {
     createCanvas(640, 480);
     video = createCapture(VIDEO);
@@ -43,6 +45,7 @@ function setup() {
     neuralNetwork = ml5.neuralNetwork(options);
 }
 
+//listens for poses
 function gotPoses(poses) {
     if (poses.length > 0) {
         let pose = poses[0].pose;
@@ -77,6 +80,7 @@ function draw() {
     drawSkeleton();
 }
 
+//keypoints
 function drawDots() {
     // loops through all the poses detected
     for (let i = 0; i < poses.length; i += 1) {
@@ -94,8 +98,8 @@ function drawDots() {
     }
 }
 
+// skeleton frame
 function drawSkeleton() {
-    // loops through the skeleton frame
     for (let i = 0; i < poses.length; i++) {
         const skeleton = poses[i].skeleton;
 
