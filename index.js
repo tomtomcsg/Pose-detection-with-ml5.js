@@ -9,10 +9,15 @@ let inputs = [];
 function dataTrigger(key) {
     targetLabel = key;
     console.log(targetLabel);
+
     setTimeout(function () {
         console.log("collecting");
         state = "collecting";
-    }, 1000);
+        setTimeout(function () {
+            console.log("not collecting");
+            state = "not collecting";
+        }, 10000);
+    }, 10000);
 }
 
 function setup() {
